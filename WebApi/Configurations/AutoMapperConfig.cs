@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
+using Domain.DTOs.Response;
+using Domain.Entities;
 
 namespace WebApi.Configurations
 {
@@ -9,14 +11,10 @@ namespace WebApi.Configurations
 
         public AutoMapperConfig()
         {
-            //CreateMap<VehicleProject, VehicleProjectResponse>()
-            //    .ReverseMap();
-            //CreateMap<VehicleProject, VehicleProjectPost>()
-            //    .ReverseMap();
-            //CreateMap<VehicleProject, VehicleProjectPut>()
-            //    .ReverseMap();
-            //CreateMap<PagedList<VehicleProject>, PagedList<VehicleProjectResponse>>()
-            //    .ReverseMap();
+            CreateMap<RoomAction, RoomActionResponse>();
+            CreateMap<User, UserResponse>();
+            CreateMap<Comment, CommentResponse>();
+            CreateMap<HighFive, HighFiveResponse>();
         }
     }
 

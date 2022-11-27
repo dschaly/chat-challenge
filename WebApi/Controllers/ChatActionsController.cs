@@ -1,4 +1,5 @@
 using Domain.Contracts.Application;
+using Domain.DTOs.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -16,19 +17,18 @@ namespace WebApi.Controllers
             _application = application;
         }
 
-        //[HttpGet(Name = "GetWeatherForecast")]
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IActionResult Get()
+        [HttpGet("GetAllActions")]
+        public IActionResult GetAllActions()
         {
-            var result = _application.GetHistoryByMinute();
-            return Ok(result);
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = Random.Shared.Next(-20, 55),
-            //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            var response = _application.GetAllActions();
+            return Ok(response);
+        }
+
+        [HttpPost("enter-the-room")]
+        public IActionResult EnterTheRoom([FromBody] EnterTheRoomRequest request)
+        {
+            _application.EnterTheRoom(request);
+            return Ok();
         }
     }
 }

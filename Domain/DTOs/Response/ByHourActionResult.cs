@@ -1,4 +1,4 @@
-﻿namespace Domain.DTOs
+﻿namespace Application.Mapper.Response
 {
     public sealed class ByHourActionResult
     {

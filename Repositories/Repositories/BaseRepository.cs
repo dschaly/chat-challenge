@@ -11,6 +11,8 @@ namespace Infrastructure.Repositories
         public BaseRepository(DataContext context)
         {
             _context = context;
+
+
         }
 
         public void Create(TEntity entity)
@@ -41,7 +43,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             return _context.Set<TEntity>().ToList();
         }
