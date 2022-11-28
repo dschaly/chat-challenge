@@ -18,7 +18,9 @@ namespace WebApi.Configurations
 
             // Services
             services.AddScoped<IRoomActionRepository, RoomActionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoomActionService, RoomActionService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoomActionApplication, RoomActionApplication>();
 
 
