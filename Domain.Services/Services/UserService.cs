@@ -2,10 +2,11 @@
 using Domain.Contracts.Services;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Resources;
 
 namespace Domain.Services.Services
 {
-    public sealed class UserService : BaseService<User>, IUserService
+    public sealed class UserService : BaseService<User, int>, IUserService
     {
         private readonly IUserRepository _userRepository;
 
@@ -31,6 +32,24 @@ namespace Domain.Services.Services
                 x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return false;
 
             return false;
+        }
+
+        // Overriding method due EF InMemory failing to validate non-nullable properties
+        public override void Create(User entity)
+        {
+            if (string.IsNullOrEmpty(entity.UserName))
+                throw new InvalidOperationException($"UserName {ValidationResource.Informed}");
+
+            base.Create(entity);
+        }
+
+        // Overriding method due EF InMemory failing to validate non-nullable properties
+        public override void Update(User entity)
+        {
+            if (string.IsNullOrEmpty(entity.UserName))
+                throw new InvalidOperationException($"UserName {ValidationResource.Informed}");
+
+            base.Update(entity);
         }
 
         public bool Exists(int userId)

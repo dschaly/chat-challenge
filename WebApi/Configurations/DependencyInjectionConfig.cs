@@ -27,6 +27,7 @@ namespace WebApi.Configurations
             // Fluent Validation
             services.AddTransient <IValidator<CommentRequest>, CommentRequestValidation>();
             services.AddTransient <IValidator<HighFiveRequest>, HighFiveRequestValidation>();
+            services.AddTransient <IValidator<EnterTheRoomRequest>, EnterTheRoomRequestValidation>();
 
             return services;
         }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public sealed class Comment : BaseEntity
+    public sealed class Comment : BaseEntity<int>
     {
         public int UserId { get; set; }
         public string Message { get; set; } = string.Empty;

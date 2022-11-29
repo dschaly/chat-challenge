@@ -1,30 +1,28 @@
-﻿using Domain.Contracts.Repositories;
+﻿using Arch.EntityFrameworkCore.UnitOfWork;
+using Domain.Contracts.Repositories;
+using Domain.Entities;
 using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity, TPrimarykey> : IBaseRepository<TEntity> where TEntity : BaseEntity<TPrimarykey>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork<DataContext> _context;
 
-        public BaseRepository(DataContext context)
+        public BaseRepository(IUnitOfWork<DataContext> context)
         {
             _context = context;
-
-
         }
 
         public void Create(TEntity entity)
         {
             try
             {
-                _context.Set<TEntity>().Add(entity);
+                _context.DbContext.Set<TEntity>().Add(entity);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -33,36 +31,35 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                _context.Set<TEntity>().Remove(entity);
+                _context.DbContext.Set<TEntity>().Remove(entity);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>().ToList();
+            return _context.DbContext.Set<TEntity>().ToList();
         }
 
         public TEntity GetById(int id)
         {
-            return _context.Set<TEntity>().Find(id);
+            return _context.DbContext.Set<TEntity>()
+                .FirstOrDefault((TEntity x) => x.Id.Equals(id));
         }
 
         public void Update(TEntity entity)
         {
             try
             {
-                _context.Entry(entity).State = EntityState.Modified;
+                _context.DbContext.Set<TEntity>().Update(entity);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

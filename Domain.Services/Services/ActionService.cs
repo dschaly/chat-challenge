@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Domain.Services.Services
 {
-    public sealed class RoomActionService : BaseService<RoomAction>, IRoomActionService
+    public sealed class RoomActionService : BaseService<RoomAction, int>, IRoomActionService
     {
         private readonly IRoomActionRepository _repository;
 

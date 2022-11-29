@@ -5,7 +5,7 @@ namespace Domain.DTOs.Request
 {
     public sealed class EnterTheRoomRequest
     {
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
     }
 
     public class EnterTheRoomRequestValidation : AbstractValidator<EnterTheRoomRequest>

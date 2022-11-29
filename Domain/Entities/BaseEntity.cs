@@ -1,7 +1,7 @@
 ﻿namespace Domain.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity<TPrimarykey>
     {
-        public int Id { get; set; }
+        public TPrimarykey Id { get; set; }
     }
 }

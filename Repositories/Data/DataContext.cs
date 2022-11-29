@@ -18,31 +18,15 @@ namespace Infrastructure.Data
         public DbSet<HighFive> HighFives { get; set; }
         public DbSet<ChatAction> ChatActions { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Entity<RoomAction>()
-                .HasOne(p => p.User)
-                .WithMany(p => p.RoomActions)
-                .HasForeignKey(p => p.UserId);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
+            base.OnModelCreating(modelBuilder);
 
-            builder.Entity<RoomAction>()
-                .HasOne(p => p.Comment)
-                .WithOne(p => p.RoomAction);
-            //.HasForeignKey(p => p.)
-
-            builder.Entity<RoomAction>()
-                .HasOne(p => p.HighFive)
-                .WithOne(p => p.RoomAction);
-
-            builder.Entity<Comment>()
-                .HasOne(p => p.User)
-                .WithMany(p => p.Comments)
-                .HasForeignKey(p => p.UserId);
-
-            builder.Entity<HighFive>()
-                .HasOne(p => p.User)
-                .WithMany(p => p.HighFives)
-                .HasForeignKey(p => p.UserIdTo);
+            foreach (var item in DataAccessDataConfigurations.Instance.Configurations())
+            {
+                modelBuilder.ApplyConfiguration(item);
+            }
         }
 
         public void SeedData()

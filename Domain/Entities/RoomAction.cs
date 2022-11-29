@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public sealed class RoomAction : BaseEntity
+    public sealed class RoomAction : BaseEntity<int>
     {
         public int UserId { get; set; }
         public int ActionId{ get; set; }

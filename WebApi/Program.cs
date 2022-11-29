@@ -1,4 +1,5 @@
 using Arch.EntityFrameworkCore.UnitOfWork;
+using FluentValidation.AspNetCore;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Configurations;
@@ -19,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerConfig();
 builder.Services.ResolveDependencies();
 builder.Services.RegisterMapper();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
 var app = builder.Build();
 

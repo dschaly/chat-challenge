@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public sealed class HighFive : BaseEntity
+    public sealed class HighFive : BaseEntity<int>
     {
         public int UserIdTo { get; set; }
 

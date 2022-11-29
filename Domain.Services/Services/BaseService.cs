@@ -1,9 +1,11 @@
 ﻿using Domain.Contracts.Repositories;
 using Domain.Contracts.Services;
+using Domain.Entities;
+using Domain.Resources;
 
 namespace Domain.Services.Services
 {
-    public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
+    public class BaseService<TEntity, TPrimarykey> : IBaseService<TEntity> where TEntity : BaseEntity<TPrimarykey>
     {
         private readonly IBaseRepository<TEntity> _repository;
 
@@ -12,13 +14,17 @@ namespace Domain.Services.Services
             _repository = repository;
         }
 
-        public void Create(TEntity entity)
+        public virtual void Create(TEntity entity)
         {
             _repository.Create(entity);
         }
 
-        public void Delete(TEntity entity)
+        public void Delete(int id)
         {
+            var entity = GetById(id);
+            if (entity is null)
+                throw new InvalidOperationException($"The specified user {ValidationResource.NotExists}");
+
             _repository.Delete(entity);
         }
 
@@ -32,7 +38,7 @@ namespace Domain.Services.Services
             return _repository.GetById(id);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             _repository.Update(entity);
         }
