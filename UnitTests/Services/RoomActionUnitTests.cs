@@ -9,13 +9,13 @@ using UnitTests.Fixture;
 
 namespace UnitTests.Services
 {
-    public sealed class RoomActionServiceUnitTest : IClassFixture<TestFixture>
+    public sealed class RoomActionServiceUnitTests : IClassFixture<TestFixture>
     {
         private readonly Mock<IUnitOfWork<DataContext>> _unitOfWorkMock;
         private readonly TestFixture _testFixture;
         private readonly IRoomActionService _roomActionService;
 
-        public RoomActionServiceUnitTest()
+        public RoomActionServiceUnitTests()
         {
             _testFixture = new TestFixture();
             _unitOfWorkMock = _testFixture.UnitOfWorkMock;
