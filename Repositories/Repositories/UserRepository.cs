@@ -1,7 +1,6 @@
 ﻿using Arch.EntityFrameworkCore.UnitOfWork;
 using Domain.Contracts.Repositories;
 using Domain.Entities;
-using Domain.Enums;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,5 +26,24 @@ namespace Infrastructure.Repositories
                 .Include(x => x.Comments)
                 .FirstOrDefault(x => x.UserName == userName);
         }
+
+        public override ICollection<User> GetAll()
+        {
+            //var roomActions = _context.DbContext.RoomActions
+            //    .Include(x => x.User)
+            //    .Include(x => x.Comment)
+            //    .Include(x => x.HighFive)
+            //    .ToList();
+
+            var roomActions = _context.GetRepository<User>()
+                .GetPagedList(
+                    include: source =>
+                        source.Include(y => y.RoomActions)
+                              .Include(y => y.Comments)
+                              .Include(y => y.HighFives));
+
+            return roomActions.Items;
+        }
+
     }
 }

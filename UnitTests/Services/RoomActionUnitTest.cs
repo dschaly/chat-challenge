@@ -1,29 +1,31 @@
 ﻿using Arch.EntityFrameworkCore.UnitOfWork;
 using Domain.Contracts.Services;
 using Domain.Entities;
+using Domain.Enums;
+using Domain.Services.Services;
 using Infrastructure.Data;
 using Moq;
 using UnitTests.Fixture;
 
 namespace UnitTests.Services
 {
-    public sealed class UserServiceUnitTests : IClassFixture<TestFixture>
+    public sealed class RoomActionServiceUnitTest : IClassFixture<TestFixture>
     {
         private readonly Mock<IUnitOfWork<DataContext>> _unitOfWorkMock;
         private readonly TestFixture _testFixture;
-        private readonly IUserService _userService;
+        private readonly IRoomActionService _roomActionService;
 
-        public UserServiceUnitTests()
+        public RoomActionServiceUnitTest()
         {
             _testFixture = new TestFixture();
             _unitOfWorkMock = _testFixture.UnitOfWorkMock;
-            _userService = _testFixture.UserService;
+            _roomActionService = _testFixture.RoomActionService;
         }
 
         [Fact]
-        public void GetAll_ShouldReturnAllUsers_NoCondition()
+        public void GetAll_ShouldReturnAllRoomActions_NoCondition()
         {
-            var response = _userService.GetAll();
+            var response = _roomActionService.GetAll();
 
             Assert.NotNull(response);
             Assert.NotEmpty(response);
@@ -32,9 +34,9 @@ namespace UnitTests.Services
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void GetById_ShouldReturnOneUser_WhenIdIsValid(int userId)
+        public void GetById_ShouldReturnOneRoomAction_WhenIdIsValid(int userId)
         {
-            var response = _userService.GetById(userId);
+            var response = _roomActionService.GetById(userId);
 
             Assert.NotNull(response);
             Assert.Equal(userId, response.Id);
@@ -45,16 +47,17 @@ namespace UnitTests.Services
         [InlineData(4)]
         public void GetById_ShouldReturnNull_WhenIdIsInvalid(int userId)
         {
-            var response = _userService.GetById(userId);
+            var response = _roomActionService.GetById(userId);
+
             Assert.Null(response);
         }
 
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void Delete_ShouldDeleteUser_WhenIdIsValid(int userId)
+        public void Delete_ShouldDeleteRoomAction_WhenIdIsValid(int userId)
         {
-            _userService.Delete(userId);
+            _roomActionService.Delete(userId);
             _unitOfWorkMock.Verify(x => x.SaveChanges(false), Times.Once);
         }
 
@@ -63,73 +66,66 @@ namespace UnitTests.Services
         [InlineData(4)]
         public void Delete_ShouldReturnError_WhenIdIsInvalid(int userId)
         {
-            Assert.Throws<InvalidOperationException>(() => _userService.Delete(userId));
+            Assert.Throws<InvalidOperationException>(() => _roomActionService.Delete(userId));
             _unitOfWorkMock.Verify(x => x.SaveChanges(false), Times.Never);
         }
 
         [Fact]
-        public void Create_ShouldReturnSuccess_WhenDataIsValid()
+        public void Create_ShouldCreateRoomAction_WhenDataIsValid()
         {
-            var user = new User
+            var roomAction = new RoomAction
             {
-                UserName = "DVD",
+                ActionId = (int) ActionEnum.ENTER_THE_ROOM,
+                User = new User
+                {
+                    UserName = "Bob",
+                }
             };
 
-            _userService.Create(user);
-
+            _roomActionService.Create(roomAction);
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Once);
         }
 
         [Fact]
         public void Create_ShouldReturnError_WhenUserNameIsNull()
         {
-            var user = new User
+            var roomAction = new RoomAction
             {
-                UserName = null,
+                ActionId = (int)ActionEnum.ENTER_THE_ROOM,
+                User = new User
+                {
+                    UserName = null
+                }
             };
 
-            Assert.Throws<InvalidOperationException>(() => _userService.Create(user));
+            Assert.Throws<InvalidOperationException>(() => _roomActionService.Create(roomAction));
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
 
         [Fact]
-        public void Update_ShouldReturnSuccess_WhenDataIsValid()
+        public void Update_ShouldUpdateRoomAction_WhenDataIsValid()
         {
-            var user = new User
+            var roomAction = new RoomAction
             {
                 Id = 1,
-                UserName = "DVD",
+                ActionId = (int)ActionEnum.LEAVE_THE_ROOM,
             };
 
-            _userService.Update(user);
-
+            _roomActionService.Update(roomAction);
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Once);
-        }
-
-        [Fact]
-        public void Update_ShouldReturnError_WhenUserNameIsNull()
-        {
-            var user = new User
-            {
-                UserName = null,
-            };
-
-            Assert.Throws<InvalidOperationException>(() => _userService.Update(user));
-            _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
 
         [Fact]
         public void Update_ShouldReturnError_WhenIdIsInvalid()
         {
-            var user = new User
+            var roomAction = new RoomAction
             {
                 Id = 0,
-                UserName = "Richard",
+                ActionId = (int)ActionEnum.ENTER_THE_ROOM,
             };
 
-            Assert.Throws<InvalidOperationException>(() => _userService.Update(user));
+            Assert.Throws<InvalidOperationException>(() => _roomActionService.Update(roomAction));
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
-
     }
 }

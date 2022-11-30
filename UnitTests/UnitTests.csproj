@@ -29,4 +29,8 @@
     <ProjectReference Include="..\Repositories\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

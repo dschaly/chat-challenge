@@ -49,6 +49,9 @@ namespace Domain.Services.Services
             if (string.IsNullOrEmpty(entity.UserName))
                 throw new InvalidOperationException($"UserName {ValidationResource.Informed}");
 
+            if (entity.Id <= 0)
+                throw new InvalidOperationException($"Id {ValidationResource.Informed}");
+
             base.Update(entity);
         }
 
