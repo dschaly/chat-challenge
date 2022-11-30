@@ -79,7 +79,7 @@ namespace UnitTests.Fixture
             var sampleRoomAction2 = new RoomAction
             {
                 Id = 2,
-                ActionId = (int)ActionEnum.COMMENT,
+                ActionId = (int)ActionEnum.ENTER_THE_ROOM,
                 UserId = 2,
                 CommentId = null,
                 HighFiveId = null,
@@ -89,6 +89,18 @@ namespace UnitTests.Fixture
                     Id = 2,
                     UserName = "Kate"
                 },
+                Comment = null,
+                HighFive = null
+            };
+
+            var sampleRoomAction3 = new RoomAction
+            {
+                Id = 3,
+                ActionId = (int)ActionEnum.COMMENT,
+                UserId = 2,
+                CommentId = null,
+                HighFiveId = null,
+                ActionDate = new DateTime(2022, 11, 26, 5, 5, 0),
                 Comment = new Comment
                 {
                     Id = 1,
@@ -101,13 +113,46 @@ namespace UnitTests.Fixture
             var sampleUser1 = new User
             {
                 Id = 1,
-                UserName = "Bob"
+                UserName = "Bob",
+                RoomActions = new List<RoomAction>
+                {
+                    new RoomAction
+                    {
+                        Id = 1,
+                        ActionId = (int)ActionEnum.ENTER_THE_ROOM,
+                        UserId = 1,
+                    }
+                }
             };
 
             var sampleUser2 = new User
             {
                 Id = 2,
-                UserName = "Kate"
+                UserName = "Kate",
+                RoomActions = new List<RoomAction>
+                {
+                    new RoomAction
+                    {
+                        Id = 2,
+                        ActionId = (int)ActionEnum.ENTER_THE_ROOM,
+                        UserId = 2,
+                    },
+                    new RoomAction
+                    {
+                        Id = 3,
+                        ActionId = (int)ActionEnum.COMMENT,
+                        UserId = 2,
+                    }
+                },
+                Comments = new List<Comment>
+                {
+                    new Comment
+                    {
+                        Id = 1,
+                        Message = "TEST",
+                        UserId = 2,
+                    }
+                }
             };
 
             var sampleComment1 = new Comment

@@ -21,6 +21,8 @@ namespace UnitTests.Repositories
             _roomActionRepository = _testFixture.RoomActionRepository;
         }
 
+        #region CRUD TESTS
+
         [Fact]
         public void GetAll_ShouldReturnAllRoomActions_NoCondition()
         {
@@ -103,5 +105,7 @@ namespace UnitTests.Repositories
             _roomActionRepository.Update(roomAction);
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Once);
         }
+
+        #endregion
     }
 }

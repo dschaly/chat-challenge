@@ -17,7 +17,7 @@ namespace WebApi.Controllers
             _application = application;
         }
 
-        [HttpGet("GetAllActions")]
+        [HttpGet("get-all-actions")]
         public IActionResult GetAllActions()
         {
             var response = _application.GetAllActions();
@@ -30,5 +30,20 @@ namespace WebApi.Controllers
             _application.EnterTheRoom(request);
             return Ok();
         }
+
+        [HttpPost("leave-the-room")]
+        public IActionResult LeaveTheRoom([FromBody] LeaveTheRoomRequest request)
+        {
+            _application.LeaveTheRoom(request);
+            return Ok();
+        }
+
+        [HttpPost("comment")]
+        public IActionResult Comment([FromBody] CommentRequest request)
+        {
+            _application.Comment(request);
+            return Ok();
+        }
+
     }
 }

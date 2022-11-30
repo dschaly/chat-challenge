@@ -21,20 +21,16 @@ namespace Infrastructure.Repositories
 
         public User GetUserByUserName(string userName)
         {
-            return _context.DbContext.Users
-                .Include(x => x.RoomActions)
-                .Include(x => x.Comments)
-                .FirstOrDefault(x => x.UserName == userName);
+            return _context.GetRepository<User>()
+                .GetFirstOrDefault(
+                    predicate: x => x.UserName == userName,
+                    include: source => source
+                        .Include(x => x.RoomActions)
+                        .Include(x => x.Comments));
         }
 
         public override ICollection<User> GetAll()
         {
-            //var roomActions = _context.DbContext.RoomActions
-            //    .Include(x => x.User)
-            //    .Include(x => x.Comment)
-            //    .Include(x => x.HighFive)
-            //    .ToList();
-
             var roomActions = _context.GetRepository<User>()
                 .GetPagedList(
                     include: source =>

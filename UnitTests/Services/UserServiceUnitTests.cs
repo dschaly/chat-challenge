@@ -20,6 +20,7 @@ namespace UnitTests.Services
             _userService = _testFixture.UserService;
         }
 
+        #region CRUD TESTS
         [Fact]
         public void GetAll_ShouldReturnAllUsers_NoCondition()
         {
@@ -131,5 +132,70 @@ namespace UnitTests.Services
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
 
+        #endregion
+
+        #region PUBLIC METHODS
+
+        [Theory]
+        [InlineData("Robert")]
+        [InlineData("Mariah")]
+        public void IsUserAvailableToEnterTheRoom_ShouldReturnTrue_WhenUserIsElegibleToEnterTheRoom(string userName)
+        {
+            var result = _userService.IsUserAvailableToEnterTheRoom(userName);
+
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData("Bob")]
+        [InlineData("Kate")]
+        public void IsUserAvailableToEnterTheRoom_ShouldReturnFalse_WhenUserIsNotElegibleToEnterTheRoom(string userName)
+        {
+            var result = _userService.IsUserAvailableToEnterTheRoom(userName);
+
+            Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void IsUserAvailableToLeaveTheRoom_ShouldReturnTrue_WhenUserIsElegibleToLeaveTheRoom(int userId)
+        {
+            var result = _userService.IsUserAvailableToLeaveTheRoom(userId);
+
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void IsUserAvailableToLeaveTheRoom_ShouldReturnFalse_WhenUserIsNotElegibleToLeaveTheRoom(int userId)
+        {
+            var result = _userService.IsUserAvailableToLeaveTheRoom(userId);
+
+            Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void IsUserAvailableToComment_ShouldReturnTrue_WhenUserIsElegibleToComment(int userId)
+        {
+            var result = _userService.IsUserAvailableToComment(userId);
+
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void IsUserAvailableToComment_ShouldReturnFalse_WhenUserIsNotElegibleToComment(int userId)
+        {
+            var result = _userService.IsUserAvailableToComment(userId);
+
+            Assert.False(result);
+        }
+
+        #endregion
     }
 }

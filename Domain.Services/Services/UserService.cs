@@ -15,7 +15,7 @@ namespace Domain.Services.Services
             _userRepository = userRepository;
         }
 
-        public bool IsUserAvailableForEnterTheRoom(string userName)
+        public bool IsUserAvailableToEnterTheRoom(string userName)
         {
             var user = _userRepository.GetUserByUserName(userName);
             
@@ -30,6 +30,41 @@ namespace Domain.Services.Services
             if (user.RoomActions.Any(x =>
                 x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
                 x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return false;
+
+            return false;
+        }
+
+        public bool IsUserAvailableToLeaveTheRoom(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            // User not yet registered
+            if (user is null) return false;
+
+            // User has entered but hasn't left, so he can leave the chat room
+            if (user.RoomActions.Any(x =>
+                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
+                x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return true;
+
+            return false;
+        }
+
+        public bool IsUserAvailableToComment(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            // User not registered
+            if (user is null) return false;
+
+            // User joined but didn't leave, so he can't enter again
+            if (user.RoomActions.Any(x =>
+                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
+                x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return true;
+
+            // User joined but didn't leave, so he can't enter again
+            if (user.RoomActions.Any(x =>
+                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
+                x.ActionId == (int)ActionEnum.LEAVE_THE_ROOM)) return true;
 
             return false;
         }
@@ -53,11 +88,6 @@ namespace Domain.Services.Services
                 throw new InvalidOperationException($"Id {ValidationResource.Informed}");
 
             base.Update(entity);
-        }
-
-        public bool Exists(int userId)
-        {
-            return _userRepository.Exists(userId);
         }
     }
 }

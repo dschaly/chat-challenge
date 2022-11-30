@@ -18,12 +18,6 @@ namespace Infrastructure.Repositories
 
         public override ICollection<RoomAction> GetAll()
         {
-            //var roomActions = _context.DbContext.RoomActions
-            //    .Include(x => x.User)
-            //    .Include(x => x.Comment)
-            //    .Include(x => x.HighFive)
-            //    .ToList();
-
             var roomActions = _context.GetRepository<RoomAction>()
                 .GetPagedList(
                     include: source =>

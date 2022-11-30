@@ -23,17 +23,20 @@ namespace Application
             _mapper = mapper;
         }
     
-        public void Comment(int userId, string comment)
+        public void Comment(CommentRequest request)
         {
+            if (!_userService.IsUserAvailableToComment(request.UserId))
+                throw new InvalidOperationException("The specified user can't join the chat room.");
+
             var entity = new RoomAction
             {
-                UserId = userId,
+                UserId = request.UserId,
                 ActionDate = DateTime.Now,
                 ActionId = (int)ActionEnum.COMMENT,
                 Comment = new Comment
                 {
-                    Message = comment,
-                    UserId = userId,
+                    Message = request.Comment,
+                    UserId = request.UserId,
                 },
                 HighFiveId = null,
             };
@@ -43,7 +46,7 @@ namespace Application
 
         public void EnterTheRoom(EnterTheRoomRequest request)
         {
-            if (!_userService.IsUserAvailableForEnterTheRoom(request.UserName))
+            if (!_userService.IsUserAvailableToEnterTheRoom(request.UserName))
                     throw new InvalidOperationException("The specified user can't join the chat room.");
 
             var entity = new RoomAction
@@ -61,14 +64,14 @@ namespace Application
             _roomActionService.Create(entity);
         }
 
-        public void LeaveTheRoom(int userId)
+        public void LeaveTheRoom(LeaveTheRoomRequest request)
         {
-            if (!_userService.Exists(userId))
+            if (!_userService.IsUserAvailableToLeaveTheRoom(request.UserId))
                 throw new InvalidOperationException(ValidationResource.NotExists);
 
             var entity = new RoomAction
             {
-                UserId = userId,
+                UserId = request.UserId,
                 ActionDate = DateTime.Now,
                 ActionId = (int)ActionEnum.LEAVE_THE_ROOM,
                 CommentId = null,
@@ -94,7 +97,7 @@ namespace Application
             throw new NotImplementedException();
         }
 
-        public void HighFive(int userIdFrom, int userIdTo)
+        public void HighFive(HighFiveRequest request)
         {
             throw new NotImplementedException();
         }

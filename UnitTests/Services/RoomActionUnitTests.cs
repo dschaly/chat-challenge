@@ -2,7 +2,6 @@
 using Domain.Contracts.Services;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.Services.Services;
 using Infrastructure.Data;
 using Moq;
 using UnitTests.Fixture;
@@ -22,6 +21,7 @@ namespace UnitTests.Services
             _roomActionService = _testFixture.RoomActionService;
         }
 
+        #region CRUD TESTS
         [Fact]
         public void GetAll_ShouldReturnAllRoomActions_NoCondition()
         {
@@ -87,22 +87,6 @@ namespace UnitTests.Services
         }
 
         [Fact]
-        public void Create_ShouldReturnError_WhenUserNameIsNull()
-        {
-            var roomAction = new RoomAction
-            {
-                ActionId = (int)ActionEnum.ENTER_THE_ROOM,
-                User = new User
-                {
-                    UserName = null
-                }
-            };
-
-            Assert.Throws<InvalidOperationException>(() => _roomActionService.Create(roomAction));
-            _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
-        }
-
-        [Fact]
         public void Update_ShouldUpdateRoomAction_WhenDataIsValid()
         {
             var roomAction = new RoomAction
@@ -127,5 +111,6 @@ namespace UnitTests.Services
             Assert.Throws<InvalidOperationException>(() => _roomActionService.Update(roomAction));
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
+        #endregion
     }
 }

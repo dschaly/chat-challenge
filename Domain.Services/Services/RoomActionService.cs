@@ -15,15 +15,6 @@ namespace Domain.Services.Services
         }
 
         // Overriding method due EF InMemory failing to validate non-nullable properties
-        public override void Create(RoomAction entity)
-        {
-            if (string.IsNullOrEmpty(entity.User.UserName))
-                throw new InvalidOperationException($"UserName {ValidationResource.Informed}");
-
-            base.Create(entity);
-        }
-
-        // Overriding method due EF InMemory failing to validate non-nullable properties
         public override void Update(RoomAction entity)
         {
             if (entity.Id <= 0)

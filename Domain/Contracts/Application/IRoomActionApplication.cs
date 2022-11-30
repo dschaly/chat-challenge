@@ -7,9 +7,9 @@ namespace Domain.Contracts.Application
     public interface IRoomActionApplication
     {
         void EnterTheRoom(EnterTheRoomRequest request);
-        void LeaveTheRoom(int userId);
-        void Comment(int userId, string comment);
-        void HighFive(int userIdFrom, int userIdTo);
+        void LeaveTheRoom(LeaveTheRoomRequest request);
+        void Comment(CommentRequest request);
+        void HighFive(HighFiveRequest request);
         ICollection<ByHourActionResult> GetHistoryByHour();
         ICollection<ByMinuteActionResult> GetHistoryByMinute();
         ICollection<RoomActionResponse> GetAllActions();

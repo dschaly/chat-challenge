@@ -20,6 +20,8 @@ namespace UnitTests.Repositories
             _userRepository = _testFixture.UserRepository;
         }
 
+        #region CRUD TESTS
+
         [Fact]
         public void GetAll_ShouldReturnAllUsers_NoCondition()
         {
@@ -88,5 +90,7 @@ namespace UnitTests.Repositories
 
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Once);
         }
+
+        #endregion
     }
 }
