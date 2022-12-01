@@ -1,5 +1,8 @@
-﻿namespace Domain.DTOs.Response
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Domain.DTOs.Response
 {
+    [ExcludeFromCodeCoverage]
     public sealed class RoomActionResponse
     {
         public int Id { get; set; }

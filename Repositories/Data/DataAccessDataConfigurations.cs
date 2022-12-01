@@ -1,7 +1,9 @@
 ﻿using Infrastructure.Configurations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Data
 {
+    [ExcludeFromCodeCoverage]
     public sealed class DataAccessDataConfigurations
     {
         public static DataAccessDataConfigurations Instance { get; private set; } = new DataAccessDataConfigurations();

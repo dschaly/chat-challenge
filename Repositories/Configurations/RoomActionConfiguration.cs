@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Configurations
 {
+    [ExcludeFromCodeCoverage]
     public sealed class RoomActionConfiguration : IEntityTypeConfiguration<RoomAction>
     {
         public void Configure(EntityTypeBuilder<RoomAction> builder)

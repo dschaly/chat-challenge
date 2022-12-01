@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastructure.Data
 {
+    [ExcludeFromCodeCoverage]
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
@@ -16,7 +18,6 @@ namespace Infrastructure.Data
         public DbSet<RoomAction> RoomActions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<HighFive> HighFives { get; set; }
-        public DbSet<ChatAction> ChatActions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

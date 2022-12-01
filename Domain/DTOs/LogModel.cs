@@ -1,5 +1,8 @@
-﻿namespace Domain.DTOs
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Domain.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public sealed class LogModel
     {
         public string SourceSystem { get; set; } = string.Empty;
