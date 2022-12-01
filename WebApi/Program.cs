@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Configurations;
+using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options => options
-    .UseInMemoryDatabase("chatdb"))
+    .UseInMemoryDatabase("chat-room-db"))
     .AddUnitOfWork<DataContext>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -20,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerConfig();
 builder.Services.ResolveDependencies();
 builder.Services.RegisterMapper();
+builder.Services.AddApiConfig(builder.Configuration);
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
 var app = builder.Build();
@@ -39,5 +41,7 @@ context!.SeedData();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run();

@@ -52,5 +52,18 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet("get-history-by-minute")]
+        public IActionResult GetHistoryByMinute([FromBody] HighFiveRequest request)
+        {
+            var response = _application.GetHistoryByMinute();
+            return Ok(response);
+        }
+
+        [HttpGet("get-history-by-hour")]
+        public IActionResult GetHistoryByHour([FromBody] HighFiveRequest request)
+        {
+            var response = _application.GetHistoryByHour();
+            return Ok(response);
+        }
     }
 }
