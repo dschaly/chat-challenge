@@ -197,6 +197,60 @@ namespace UnitTests.Application
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
 
+        [Fact]
+        public void HighFive_ShouldFailValidation_WhenBothUserMeetRequirements()
+        {
+            var request = new HighFiveRequest
+            {
+                UserIdFrom = 1,
+                UserIdTo = 2
+            };
+
+            var validator = new HighFiveRequestValidation();
+            var validation = validator.TestValidate(request);
+
+            Assert.True(validation.IsValid);
+            Assert.False(validation.Errors.Any());
+
+            _roomActionApplication.HighFive(request);
+            _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Once);
+        }
+
+        [Fact]
+        public void HighFive_ShouldFailValidation_WhenOneOfTheUsersIsNotValid()
+        {
+            var request = new HighFiveRequest
+            {
+                UserIdFrom = 1,
+                UserIdTo = 0
+            };
+
+            var validator = new HighFiveRequestValidation();
+            var validation = validator.TestValidate(request);
+
+            Assert.False(validation.IsValid);
+            Assert.True(validation.Errors.Any());
+        }
+
+        [Fact]
+        public void HighFive_ShouldThrowInvalidOperationExcepetion_WhenOneOfTheUsersDoesNotExist()
+        {
+            var request = new HighFiveRequest
+            {
+                UserIdFrom = 4,
+                UserIdTo = 1
+            };
+
+            var validator = new HighFiveRequestValidation();
+            var validation = validator.TestValidate(request);
+
+            Assert.True(validation.IsValid);
+            Assert.False(validation.Errors.Any());
+
+            Assert.Throws<InvalidOperationException>(() => _roomActionApplication.HighFive(request));
+            _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
+        }
+
         #endregion
     }
 }

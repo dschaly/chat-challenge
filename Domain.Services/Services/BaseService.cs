@@ -38,6 +38,11 @@ namespace Domain.Services.Services
             return _repository.GetById(id);
         }
 
+        public bool Exists(int id)
+        {
+            return _repository.Exists(id);
+        }
+
         public virtual void Update(TEntity entity)
         {
             _repository.Update(entity);

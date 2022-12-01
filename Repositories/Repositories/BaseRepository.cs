@@ -51,6 +51,12 @@ namespace Infrastructure.Repositories
                 .FirstOrDefault((TEntity x) => x.Id.Equals(id));
         }
 
+        public bool Exists(int id)
+        {
+            return _context.DbContext.Set<TEntity>()
+                .Any((TEntity x) => x.Id.Equals(id));
+        }
+
         public void Update(TEntity entity)
         {
             try

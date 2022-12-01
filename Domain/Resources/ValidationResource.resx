@@ -126,4 +126,10 @@
   <data name="Required" xml:space="preserve">
     <value>The field {0} is required.</value>
   </data>
+  <data name="UserCantComment" xml:space="preserve">
+    <value>The specified user can't post comments.</value>
+  </data>
+  <data name="UserOffline" xml:space="preserve">
+    <value>The specified user is not in the chat room.</value>
+  </data>
 </root>

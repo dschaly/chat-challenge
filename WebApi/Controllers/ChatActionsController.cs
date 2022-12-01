@@ -45,5 +45,12 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpPost("high-five")]
+        public IActionResult HighFive([FromBody] HighFiveRequest request)
+        {
+            _application.HighFive(request);
+            return Ok();
+        }
+
     }
 }

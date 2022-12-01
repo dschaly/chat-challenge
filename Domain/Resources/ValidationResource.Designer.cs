@@ -86,5 +86,23 @@ namespace Domain.Resources {
                 return ResourceManager.GetString("Required", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified user can&apos;t post comments..
+        /// </summary>
+        public static string UserCantComment {
+            get {
+                return ResourceManager.GetString("UserCantComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified user is not in the chat room..
+        /// </summary>
+        public static string UserOffline {
+            get {
+                return ResourceManager.GetString("UserOffline", resourceCulture);
+            }
+        }
     }
 }

@@ -37,8 +37,6 @@ namespace Domain.Services.Services
                 },
                 ActionDate = DateTime.Now,
                 ActionId = (int)ActionEnum.ENTER_THE_ROOM,
-                CommentId = null,
-                HighFiveId = null,
             };
 
             Create(entity);
@@ -54,8 +52,6 @@ namespace Domain.Services.Services
                 UserId = request.UserId,
                 ActionDate = DateTime.Now,
                 ActionId = (int)ActionEnum.LEAVE_THE_ROOM,
-                CommentId = null,
-                HighFiveId = null,
             };
 
             _userService.ToggleUserOnlineStatus(entity.UserId);
@@ -65,7 +61,7 @@ namespace Domain.Services.Services
         public void Comment(CommentRequest request)
         {
             if (!_userService.IsUserOnline(request.UserId))
-                throw new InvalidOperationException("The specified user can't post comments.");
+                throw new InvalidOperationException(ValidationResource.UserCantComment);
 
             var entity = new RoomAction
             {
@@ -77,7 +73,6 @@ namespace Domain.Services.Services
                     Message = request.Comment,
                     UserId = request.UserId,
                 },
-                HighFiveId = null,
             };
 
             Create(entity);
@@ -85,7 +80,24 @@ namespace Domain.Services.Services
 
         public void HighFive(HighFiveRequest request)
         {
-            throw new NotImplementedException();
+            if (!_userService.Exists(request.UserIdFrom))
+                throw new InvalidOperationException(ValidationResource.UserOffline);
+
+            if (!_userService.IsUserOnline(request.UserIdTo))
+                throw new InvalidOperationException(ValidationResource.UserOffline);
+
+            var entity = new RoomAction
+            {
+                UserId = request.UserIdFrom,
+                ActionDate = DateTime.Now,
+                ActionId = (int)ActionEnum.HIGH_FIVE,
+                HighFive = new HighFive
+                {
+                    UserIdTo = request.UserIdTo
+                }
+            };
+
+            Create(entity);
         }
 
         public ICollection<RoomActionResponse> GetAllActions()
