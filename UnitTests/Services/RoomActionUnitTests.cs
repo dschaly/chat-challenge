@@ -45,8 +45,8 @@ namespace UnitTests.Services
         }
 
         [Theory]
-        [InlineData(3)]
-        [InlineData(4)]
+        [InlineData(999)]
+        [InlineData(998)]
         public void GetById_ShouldReturnNull_WhenIdIsInvalid(int userId)
         {
             var response = _roomActionService.GetById(userId);
@@ -64,8 +64,8 @@ namespace UnitTests.Services
         }
 
         [Theory]
-        [InlineData(3)]
-        [InlineData(4)]
+        [InlineData(999)]
+        [InlineData(988)]
         public void Delete_ShouldReturnError_WhenIdIsInvalid(int userId)
         {
             Assert.Throws<InvalidOperationException>(() => _roomActionService.Delete(userId));

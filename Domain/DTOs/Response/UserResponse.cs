@@ -8,6 +8,6 @@
 
         //public List<RoomActionResponse> RoomActions { get; set; }
         //public List<CommentResponse> Comments { get; set; }
-        //public List<HighFiveResponse> HighFives { get; set; }
+        public List<HighFiveResponse> HighFives { get; set; }
     }
 }

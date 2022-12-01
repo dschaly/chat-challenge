@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Services", "Domain.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Repositories\Infrastructure.csproj", "{335B9CB9-9E17-4B1D-A306-C5A5F15B3BC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatRoomConsole", "ChatRoomConsole\ChatRoomConsole.csproj", "{F7970677-AEC2-405D-AA92-B37325904BD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{335B9CB9-9E17-4B1D-A306-C5A5F15B3BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{335B9CB9-9E17-4B1D-A306-C5A5F15B3BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{335B9CB9-9E17-4B1D-A306-C5A5F15B3BC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7970677-AEC2-405D-AA92-B37325904BD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7970677-AEC2-405D-AA92-B37325904BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7970677-AEC2-405D-AA92-B37325904BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7970677-AEC2-405D-AA92-B37325904BD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{5386F82D-3A91-402B-A593-86603C7D87A6} = {80AC6A14-64B6-4E62-8128-1FA914B48396}
 		{25E81F7C-2BDE-43FC-AC21-3F0E3FB49A20} = {80AC6A14-64B6-4E62-8128-1FA914B48396}
 		{335B9CB9-9E17-4B1D-A306-C5A5F15B3BC0} = {4906BC2A-6706-4AF8-8DA3-DF11ACFF6587}
+		{F7970677-AEC2-405D-AA92-B37325904BD0} = {ADBB8360-F585-4650-8F68-83C98D68E255}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75F254B7-787A-44E0-BB99-974A9C37791B}

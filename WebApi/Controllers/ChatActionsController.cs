@@ -17,6 +17,10 @@ namespace WebApi.Controllers
             _application = application;
         }
 
+        /// <summary>
+        /// Lists every action registered
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("get-all-actions")]
         public IActionResult GetAllActions()
         {
@@ -24,6 +28,11 @@ namespace WebApi.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Register user entering the chat room
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("enter-the-room")]
         public IActionResult EnterTheRoom([FromBody] EnterTheRoomRequest request)
         {
@@ -31,6 +40,11 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Register user leaving the chat room
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("leave-the-room")]
         public IActionResult LeaveTheRoom([FromBody] LeaveTheRoomRequest request)
         {
@@ -38,6 +52,11 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Register one user comment
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("comment")]
         public IActionResult Comment([FromBody] CommentRequest request)
         {
@@ -45,6 +64,11 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Register a user's high-five to another user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("high-five")]
         public IActionResult HighFive([FromBody] HighFiveRequest request)
         {
@@ -52,17 +76,27 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Display history, by minute, on a date interval
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet("get-history-by-minute")]
-        public IActionResult GetHistoryByMinute([FromBody] HighFiveRequest request)
+        public IActionResult GetHistoryByMinute([FromQuery] RoomActionsByMinuteFilter filter)
         {
-            var response = _application.GetHistoryByMinute();
+            var response = _application.GetHistoryByMinute(filter);
             return Ok(response);
         }
 
+        /// <summary>
+        /// Display history, by hour, on a date interval
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet("get-history-by-hour")]
-        public IActionResult GetHistoryByHour([FromBody] HighFiveRequest request)
+        public IActionResult GetHistoryByHour([FromQuery] RoomActionsByHourFilter filter)
         {
-            var response = _application.GetHistoryByHour();
+            var response = _application.GetHistoryByHour(filter);
             return Ok(response);
         }
     }

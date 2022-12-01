@@ -12,7 +12,7 @@ namespace Domain.Contracts.Services
         void Comment(CommentRequest request);
         void HighFive(HighFiveRequest request);
         ICollection<RoomActionResponse> GetAllActions();
-        ICollection<ByHourActionResult> GetHistoryByHour();
-        ICollection<ByMinuteActionResult> GetHistoryByMinute();
+        ICollection<ByHourActionResult> GetHistoryByHour(RoomActionsByHourFilter filter);
+        ICollection<ByMinuteActionResult> GetHistoryByMinute(RoomActionsByMinuteFilter filter);
     }
 }

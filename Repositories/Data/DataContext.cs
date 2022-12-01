@@ -78,14 +78,15 @@ namespace Infrastructure.Data
                         ActionId = (int)ActionEnum.HIGH_FIVE,
                         UserId = 2,
                         CommentId = null,
-                        HighFiveId = null,
-                        ActionDate = new DateTime(2022, 11, 26, 5, 5, 0),
+                        HighFiveId = 1,
+                        ActionDate = new DateTime(2022, 11, 26, 5, 15, 0),
                         User = null,
                         Comment = null,
                         HighFive = new HighFive
                         {
                             Id = 1,
                             UserIdTo = 1,
+                            UserNameTo = "Bob"
                         }
                     }
                 };

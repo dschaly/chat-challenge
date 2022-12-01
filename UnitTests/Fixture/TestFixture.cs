@@ -84,7 +84,7 @@ namespace UnitTests.Fixture
                 UserId = 2,
                 CommentId = null,
                 HighFiveId = null,
-                ActionDate = new DateTime(2022, 11, 26, 5, 5, 0),
+                ActionDate = new DateTime(2022, 11, 26, 5, 10, 0),
                 User = new User
                 {
                     Id = 2,
@@ -102,14 +102,83 @@ namespace UnitTests.Fixture
                 UserId = 2,
                 CommentId = null,
                 HighFiveId = null,
-                ActionDate = new DateTime(2022, 11, 26, 5, 5, 0),
+                ActionDate = new DateTime(2022, 11, 26, 5, 12, 0),
                 Comment = new Comment
                 {
                     Id = 1,
                     Message = "TEST",
                     UserId = 2,
                 },
-                HighFive = null
+                HighFive = null,
+                User = new User
+                {
+                    Id = 2,
+                    UserName = "Kate",
+                    IsOnline = true
+                },
+            };
+
+            var sampleRoomAction4 = new RoomAction
+            {
+                Id = 4,
+                ActionId = (int)ActionEnum.HIGH_FIVE,
+                UserId = 1,
+                HighFiveId = 1,
+                ActionDate = new DateTime(2022, 11, 26, 5, 13, 0),
+                HighFive = new HighFive
+                {
+                    Id = 1,
+                    UserIdTo = 2,
+                    UserNameTo = "Kate"
+                },
+                User = new User
+                {
+                    Id = 1,
+                    UserName = "Bob",
+                    IsOnline = true
+                },
+            };
+
+            var sampleRoomAction5 = new RoomAction
+            {
+                Id = 5,
+                ActionId = (int)ActionEnum.HIGH_FIVE,
+                UserId = 1,
+                HighFiveId = 2,
+                ActionDate = new DateTime(2022, 11, 26, 5, 15, 0),
+                HighFive = new HighFive
+                {
+                    Id = 2,
+                    UserIdTo = 2,
+                    UserNameTo = "Kate"
+                },
+                User = new User
+                {
+                    Id = 1,
+                    UserName = "Bob",
+                    IsOnline = true
+                },
+            };
+
+            var sampleRoomAction6 = new RoomAction
+            {
+                Id = 6,
+                ActionId = (int)ActionEnum.HIGH_FIVE,
+                UserId = 1,
+                HighFiveId = 3,
+                ActionDate = new DateTime(2022, 11, 26, 5, 25, 0),
+                HighFive = new HighFive
+                {
+                    Id = 3,
+                    UserIdTo = 3,
+                    UserNameTo = "Robert"
+                },
+                User = new User
+                {
+                    Id = 1,
+                    UserName = "Bob",
+                    IsOnline = true
+                },
             };
 
             var sampleUser1 = new User
@@ -159,6 +228,22 @@ namespace UnitTests.Fixture
                 }
             };
 
+            var sampleUser3 = new User
+            {
+                Id = 3,
+                UserName = "Robert",
+                IsOnline = true,
+                RoomActions = new List<RoomAction>
+                {
+                    new RoomAction
+                    {
+                        Id = 1,
+                        ActionId = (int)ActionEnum.ENTER_THE_ROOM,
+                        UserId = 1,
+                    }
+                }
+            };
+
             var sampleComment1 = new Comment
             {
                 Id = 1,
@@ -189,7 +274,14 @@ namespace UnitTests.Fixture
 
             var response = new ModelSampleList();
 
-            response.RoomActions.AddRange(new[] { sampleRoomAction1, sampleRoomAction2 });
+            response.RoomActions.AddRange(new[] {
+                sampleRoomAction1,
+                sampleRoomAction2, 
+                sampleRoomAction3,
+                sampleRoomAction4,
+                sampleRoomAction5,
+                sampleRoomAction6,
+            });
             response.Users.AddRange(new[] { sampleUser1, sampleUser2 });
             response.Comments.AddRange(new[] { sampleComment1, sampleComment2 });
             response.HighFives.AddRange(new[] { sampleHighFive1, sampleHighFive2 });

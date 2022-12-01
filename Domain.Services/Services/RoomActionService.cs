@@ -7,6 +7,7 @@ using Domain.DTOs.Response;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Resources;
+using System.Linq;
 
 namespace Domain.Services.Services
 {
@@ -86,6 +87,8 @@ namespace Domain.Services.Services
             if (!_userService.IsUserOnline(request.UserIdTo))
                 throw new InvalidOperationException(ValidationResource.UserOffline);
 
+            var userNameTo = _userService.GetById(request.UserIdTo).UserName;
+
             var entity = new RoomAction
             {
                 UserId = request.UserIdFrom,
@@ -93,7 +96,8 @@ namespace Domain.Services.Services
                 ActionId = (int)ActionEnum.HIGH_FIVE,
                 HighFive = new HighFive
                 {
-                    UserIdTo = request.UserIdTo
+                    UserIdTo = request.UserIdTo,
+                    UserNameTo = userNameTo,
                 }
             };
 
@@ -105,14 +109,46 @@ namespace Domain.Services.Services
             var roomActions = GetAll();
             return _mapper.Map<List<RoomActionResponse>>(roomActions);
         }
-        public ICollection<ByHourActionResult> GetHistoryByHour()
+        public ICollection<ByHourActionResult> GetHistoryByHour(RoomActionsByHourFilter filter)
         {
-            throw new NotImplementedException();
+            var roomActions = _repository.Search(filter).Items;
+
+            var result = roomActions.GroupBy(action => new
+            {
+                action.ActionDate.Year,
+                action.ActionDate.Month,
+                action.ActionDate.Day,
+                action.ActionDate.Hour
+            })
+            .Select(actionGroup => new ByHourActionResult
+            {
+                HourPeriod = new DateTime(actionGroup.Key.Year, actionGroup.Key.Month, actionGroup.Key.Day, actionGroup.Key.Hour, 0, 0),
+                EnteredPeopleCount = actionGroup.Count(x => x.ActionId == (int)ActionEnum.ENTER_THE_ROOM),
+                LeftPeopleCount = actionGroup.Count(x => x.ActionId == (int)ActionEnum.LEAVE_THE_ROOM),
+                CommentCount = actionGroup.Count(x => x.ActionId == (int)ActionEnum.COMMENT),
+                HighFivedFromPeopleCount = actionGroup.Where(x => x.HighFiveId.HasValue).GroupBy(x => x.UserId).Count(),
+                HighFivedToPeopleCount = actionGroup.Where(x => x.HighFiveId.HasValue).GroupBy(x => x.HighFive!.UserIdTo).Count(),
+            })
+            .ToList();
+
+            return result;
         }
 
-        public ICollection<ByMinuteActionResult> GetHistoryByMinute()
+        public ICollection<ByMinuteActionResult> GetHistoryByMinute(RoomActionsByMinuteFilter filter)
         {
-            throw new NotImplementedException();
+            var roomActions = _repository.Search(filter).Items;
+
+            var result = roomActions.Select(action => new ByMinuteActionResult
+            {
+                Id = action.Id,
+                UserName = action.User.UserName,
+                ActionDate = action.ActionDate,
+                ActionId = action.ActionId,
+                Comment = action.Comment?.Message,
+                HighFiveToName = action.HighFive?.UserNameTo
+            }).ToList();
+
+            return result;
         }
 
         // Overriding method due EF InMemory failing to validate non-nullable properties

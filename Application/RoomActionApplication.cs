@@ -40,14 +40,14 @@ namespace Application
             return _roomActionService.GetAllActions();
         }
 
-        public ICollection<ByHourActionResult> GetHistoryByHour()
+        public ICollection<ByHourActionResult> GetHistoryByHour(RoomActionsByHourFilter filter)
         {
-            return _roomActionService.GetHistoryByHour();
+            return _roomActionService.GetHistoryByHour(filter);
         }
 
-        public ICollection<ByMinuteActionResult> GetHistoryByMinute()
+        public ICollection<ByMinuteActionResult> GetHistoryByMinute(RoomActionsByMinuteFilter filter)
         {
-            return _roomActionService.GetHistoryByMinute();
+            return _roomActionService.GetHistoryByMinute(filter);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Infrastructure.Configurations
 
             // Columns
             builder.Property(c => c.UserIdTo).IsRequired();
+            builder.Property(c => c.UserNameTo).IsRequired();
 
             // Relationships
             builder.HasOne(p => p.User)

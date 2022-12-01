@@ -10,8 +10,8 @@ namespace Domain.Contracts.Application
         void LeaveTheRoom(LeaveTheRoomRequest request);
         void Comment(CommentRequest request);
         void HighFive(HighFiveRequest request);
-        ICollection<ByHourActionResult> GetHistoryByHour();
-        ICollection<ByMinuteActionResult> GetHistoryByMinute();
+        ICollection<ByHourActionResult> GetHistoryByHour(RoomActionsByHourFilter filter);
+        ICollection<ByMinuteActionResult> GetHistoryByMinute(RoomActionsByMinuteFilter filter);
         ICollection<RoomActionResponse> GetAllActions();
     }
 }

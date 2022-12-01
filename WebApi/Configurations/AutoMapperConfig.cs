@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Arch.EntityFrameworkCore.UnitOfWork.Collections;
+using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Domain.DTOs.Response;
 using Domain.Entities;
@@ -15,6 +16,8 @@ namespace WebApi.Configurations
             CreateMap<User, UserResponse>();
             CreateMap<Comment, CommentResponse>();
             CreateMap<HighFive, HighFiveResponse>();
+
+            CreateMap<PagedList<RoomAction>, PagedList<RoomActionResponse>>();
         }
     }
 

@@ -251,6 +251,36 @@ namespace UnitTests.Application
             _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
 
+        [Fact]
+        public void GetHistoryByMinute_ShouldListFilteredRoomActions_WhenFilterIsValid()
+        {
+            var request = new RoomActionsByMinuteFilter
+            {
+                InitialDate = new DateTime(2022, 11, 1, 0, 0, 0),
+                EndDate = new DateTime(2022, 12, 1, 0, 0, 0)
+            };
+
+            var response = _roomActionApplication.GetHistoryByMinute(request);
+
+            Assert.NotNull(response);
+            Assert.NotEmpty(response);
+        }
+
+        [Fact]
+        public void GetHistoryByHour_ShouldListFilteredRoomActions_WhenFilterIsValid()
+        {
+            var request = new RoomActionsByHourFilter
+            {
+                InitialDate = new DateTime(2022, 11, 1, 0, 0, 0),
+                EndDate = new DateTime(2022, 12, 1, 0, 0, 0)
+            };
+
+            var response = _roomActionApplication.GetHistoryByHour(request);
+
+            Assert.NotNull(response);
+            Assert.NotEmpty(response);
+        }
+
         #endregion
     }
 }

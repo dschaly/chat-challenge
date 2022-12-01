@@ -2,7 +2,6 @@
 {
     public sealed class ByHourActionResult
     {
-        public int Id { get; set; }
         public DateTime HourPeriod { get; set; }
         public int EnteredPeopleCount { get; set; }
         public int LeftPeopleCount { get; set; }
