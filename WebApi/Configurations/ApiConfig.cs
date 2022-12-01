@@ -7,7 +7,7 @@ namespace WebApi.Configurations
         public static IServiceCollection AddApiConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors();
-            services.AddErrorHandlingMiddleware();
+            services.AddTransient<ExceptionMiddleware>();
 
             return services;
         }

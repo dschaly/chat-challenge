@@ -2,22 +2,22 @@
 using Microsoft.AspNetCore.Http.Features;
 using Newtonsoft.Json;
 using System.Net;
+using System.Reflection;
 using System.Text;
 
 namespace WebApi.Middleware
 {
-    public class ExceptionMiddleware
+    [Serializable()]
+    public class ExceptionMiddleware : IMiddleware
     {
-        private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger)
         {
-            _next = next;
             _logger = logger;
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
         {
             httpContext.Request.EnableBuffering();
             var body = string.Empty;
@@ -36,7 +36,7 @@ namespace WebApi.Middleware
 
             try
             {
-                await _next(httpContext);
+                await next(httpContext);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace WebApi.Middleware
             {
                 logModel.Type = "WARN";
                 logModel.Information = exception.Message;
-                _logger.LogInformation(JsonConvert.SerializeObject(logModel));
+                _logger.LogWarning(JsonConvert.SerializeObject(logModel));
             }
             else
             {
@@ -67,14 +67,32 @@ namespace WebApi.Middleware
                 logModel.Information = exception.Message;
                 logModel.Exception = exception.InnerException != null ? exception.InnerException.ToString() : string.Empty;
                 logModel.Etc = !string.IsNullOrEmpty(exception.StackTrace) ? exception.StackTrace : string.Empty;
-                _logger.LogError(JsonConvert.SerializeObject(logModel));
+                _logger.LogError(exception, JsonConvert.SerializeObject(logModel));
             }
-            var result = JsonConvert.SerializeObject(new { message = exception.InnerException != null && exception.InnerException.InnerException != null && exception.InnerException.InnerException.Message != null ? exception.InnerException.InnerException.Message : exception.Message });
+
+            var result = JsonConvert.SerializeObject(new { message = GetUsableException(exception).Message });
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
             await context.Response.WriteAsync(result);
+        }
+
+        protected Exception? GetUsableException(Exception err)
+        {
+            if (err is TargetInvocationException)
+            {
+                if (err.InnerException is not null)
+                {
+                    return GetUsableException(err.InnerException);
+                }
+
+                return null;
+            }
+            else
+            {
+                return err;
+            }
         }
     }
 }

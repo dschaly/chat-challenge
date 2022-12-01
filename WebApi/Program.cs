@@ -8,7 +8,6 @@ using WebApi.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options => options
@@ -36,6 +35,7 @@ if (app.Environment.IsDevelopment())
 using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DataContext>();
 
+// Populating the EF InMemory Database
 context!.SeedData();
 
 app.UseAuthorization();

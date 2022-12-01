@@ -2,7 +2,6 @@
 using Arch.EntityFrameworkCore.UnitOfWork.Collections;
 using Domain.Contracts.Repositories;
 using Domain.DTOs;
-using Domain.DTOs.Request;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

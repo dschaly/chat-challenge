@@ -7,7 +7,6 @@ using Domain.DTOs.Response;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Resources;
-using System.Linq;
 
 namespace Domain.Services.Services
 {
