@@ -44,7 +44,8 @@ namespace Infrastructure.Data
                         User = new User
                         {
                             Id = 1,
-                            UserName = "Bob"
+                            UserName = "Bob",
+                            IsOnline = true
                         },
                         Comment = null,
                         HighFive = null
@@ -54,13 +55,14 @@ namespace Infrastructure.Data
                         Id = 2,
                         ActionId = (int)ActionEnum.COMMENT,
                         UserId = 2,
-                        CommentId = null,
+                        CommentId = 1,
                         HighFiveId = null,
                         ActionDate = new DateTime(2022, 11, 26, 5, 5, 0),
                         User = new User
                         {
                             Id = 2,
-                            UserName = "Kate"
+                            UserName = "Kate",
+                            IsOnline = true
                         },
                         Comment = new Comment
                         {

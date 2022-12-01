@@ -70,7 +70,8 @@ namespace UnitTests.Fixture
                 User = new User
                 {
                     Id = 1,
-                    UserName = "Bob"
+                    UserName = "Bob",
+                    IsOnline = true
                 },
                 Comment = null,
                 HighFive = null
@@ -87,7 +88,8 @@ namespace UnitTests.Fixture
                 User = new User
                 {
                     Id = 2,
-                    UserName = "Kate"
+                    UserName = "Kate",
+                    IsOnline = true
                 },
                 Comment = null,
                 HighFive = null
@@ -114,6 +116,7 @@ namespace UnitTests.Fixture
             {
                 Id = 1,
                 UserName = "Bob",
+                IsOnline = true,
                 RoomActions = new List<RoomAction>
                 {
                     new RoomAction
@@ -129,6 +132,7 @@ namespace UnitTests.Fixture
             {
                 Id = 2,
                 UserName = "Kate",
+                IsOnline = true,
                 RoomActions = new List<RoomAction>
                 {
                     new RoomAction
@@ -273,13 +277,13 @@ namespace UnitTests.Fixture
 
         private void CreateServices()
         {
-            RoomActionService = new RoomActionService(RoomActionRepository);
             UserService = new UserService(UserRepository);
+            RoomActionService = new RoomActionService(RoomActionRepository, UserService, Mapper);
         }
 
         private void CreateApplications()
         {
-            RoomActionApplication = new RoomActionApplication(RoomActionService, UserService, Mapper);
+            RoomActionApplication = new RoomActionApplication(RoomActionService);
         }
     }
 }

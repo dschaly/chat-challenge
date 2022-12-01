@@ -10,6 +10,7 @@
         }
 
         public string UserName { get; set; }
+        public bool IsOnline { get; set; }
 
         public ICollection<RoomAction> RoomActions { get; set; }
         public ICollection<Comment> Comments { get; set; }

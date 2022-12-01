@@ -1,7 +1,6 @@
 ﻿using Domain.Contracts.Repositories;
 using Domain.Contracts.Services;
 using Domain.Entities;
-using Domain.Enums;
 using Domain.Resources;
 
 namespace Domain.Services.Services
@@ -15,6 +14,7 @@ namespace Domain.Services.Services
             _userRepository = userRepository;
         }
 
+
         public bool IsUserAvailableToEnterTheRoom(string userName)
         {
             var user = _userRepository.GetUserByUserName(userName);
@@ -22,49 +22,21 @@ namespace Domain.Services.Services
             // User not yet registered
             if (user is null) return true;
 
-            // User already left, so he can re-enter the chat room
-            if (user.RoomActions.Any(x => 
-                x.ActionId == (int) ActionEnum.LEAVE_THE_ROOM)) return true;
-
-            // User joined but didn't leave, so he can't enter again
-            if (user.RoomActions.Any(x =>
-                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
-                x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return false;
+            // User is not in the chat room, so he can come back
+            if (!user.IsOnline) return true;
 
             return false;
         }
 
-        public bool IsUserAvailableToLeaveTheRoom(int userId)
+        public bool IsUserOnline(int userId)
         {
             var user = _userRepository.GetById(userId);
 
             // User not yet registered
             if (user is null) return false;
 
-            // User has entered but hasn't left, so he can leave the chat room
-            if (user.RoomActions.Any(x =>
-                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
-                x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return true;
-
-            return false;
-        }
-
-        public bool IsUserAvailableToComment(int userId)
-        {
-            var user = _userRepository.GetById(userId);
-
-            // User not registered
-            if (user is null) return false;
-
-            // User joined but didn't leave, so he can't enter again
-            if (user.RoomActions.Any(x =>
-                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
-                x.ActionId != (int)ActionEnum.LEAVE_THE_ROOM)) return true;
-
-            // User joined but didn't leave, so he can't enter again
-            if (user.RoomActions.Any(x =>
-                x.ActionId == (int)ActionEnum.ENTER_THE_ROOM &&
-                x.ActionId == (int)ActionEnum.LEAVE_THE_ROOM)) return true;
+            // User is in the chat room
+            if (user.IsOnline) return true;
 
             return false;
         }
@@ -76,6 +48,17 @@ namespace Domain.Services.Services
                 throw new InvalidOperationException($"UserName {ValidationResource.Informed}");
 
             base.Create(entity);
+        }
+
+        public void ToggleUserOnlineStatus(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+
+            if (user is null)
+                throw new InvalidOperationException($"User {ValidationResource.NotExists}");
+
+            user.IsOnline = !user.IsOnline;
+            base.Update(user);
         }
 
         // Overriding method due EF InMemory failing to validate non-nullable properties

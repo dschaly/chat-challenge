@@ -45,7 +45,7 @@ namespace Infrastructure.Repositories
             return _context.DbContext.Set<TEntity>().ToList();
         }
 
-        public TEntity GetById(int id)
+        public virtual TEntity GetById(int id)
         {
             return _context.DbContext.Set<TEntity>()
                 .FirstOrDefault((TEntity x) => x.Id.Equals(id));

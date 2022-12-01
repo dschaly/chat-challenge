@@ -159,9 +159,9 @@ namespace UnitTests.Services
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void IsUserAvailableToLeaveTheRoom_ShouldReturnTrue_WhenUserIsElegibleToLeaveTheRoom(int userId)
+        public void IsUserOnline_ShouldReturnUserOnlineStatus_WhenUserIsOnline(int userId)
         {
-            var result = _userService.IsUserAvailableToLeaveTheRoom(userId);
+            var result = _userService.IsUserOnline(userId);
 
             Assert.True(result);
         }
@@ -169,9 +169,9 @@ namespace UnitTests.Services
         [Theory]
         [InlineData(3)]
         [InlineData(4)]
-        public void IsUserAvailableToLeaveTheRoom_ShouldReturnFalse_WhenUserIsNotElegibleToLeaveTheRoom(int userId)
+        public void IsUserOnline_ShouldReturnFalse_WhenUserIsNotOnlineOrDoesNotExist(int userId)
         {
-            var result = _userService.IsUserAvailableToLeaveTheRoom(userId);
+            var result = _userService.IsUserOnline(userId);
 
             Assert.False(result);
         }
@@ -179,21 +179,19 @@ namespace UnitTests.Services
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void IsUserAvailableToComment_ShouldReturnTrue_WhenUserIsElegibleToComment(int userId)
+        public void ToggleUserOnlineStatus_ShouldToggleUserOnlineStatus_WhenUserExists(int userId)
         {
-            var result = _userService.IsUserAvailableToComment(userId);
-
-            Assert.True(result);
+            _userService.ToggleUserOnlineStatus(userId);
+            _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Once);
         }
 
         [Theory]
         [InlineData(3)]
         [InlineData(4)]
-        public void IsUserAvailableToComment_ShouldReturnFalse_WhenUserIsNotElegibleToComment(int userId)
+        public void ToggleUserOnlineStatus_ShouldThrowInvalidOperationException_WhenUserDoesNotExist(int userId)
         {
-            var result = _userService.IsUserAvailableToComment(userId);
-
-            Assert.False(result);
+            Assert.Throws<InvalidOperationException>(() => _userService.ToggleUserOnlineStatus(userId));
+            _unitOfWorkMock.Verify(f => f.SaveChanges(false), Times.Never);
         }
 
         #endregion
