@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http.Features;
 using Newtonsoft.Json;
 using System.Net;
-using System.Reflection;
 using System.Text;
 
 namespace WebApi.Middleware
@@ -78,16 +77,11 @@ namespace WebApi.Middleware
             await context.Response.WriteAsync(result);
         }
 
-        protected Exception? GetUsableException(Exception err)
+        private Exception? GetUsableException(Exception err)
         {
-            if (err is TargetInvocationException)
+            if (err?.InnerException is not null)
             {
-                if (err.InnerException is not null)
-                {
-                    return GetUsableException(err.InnerException);
-                }
-
-                return null;
+                return GetUsableException(err.InnerException);
             }
             else
             {
