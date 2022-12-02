@@ -33,10 +33,10 @@ These endpoints allow you to:
 `get-history-by-hour` ChatActions/get-history-by-hour <br/>
 
 ## POST
-`enter-the-room` [ChatActions/enter-the-room](#post-1billingstart-trialjson) <br/>
-`leave-the-room` [ChatActions/leave-the-room](#post-1billingcancel-trialjson) <br/>
-`comment` [ChatActions/comment](#post-1billingstart-or-update-subscriptionjson) <br/>
-`high-five` [ChatActions/high-five](#post-1billingcancel-subscriptionjson) <br/>
+`enter-the-room` ChatActions/enter-the-room <br/>
+`leave-the-room` ChatActions/leave-the-room <br/>
+`comment` ChatActions/comment<br/>
+`high-five` ChatActions/high-five <br/>
 
 ## Contributing
 
