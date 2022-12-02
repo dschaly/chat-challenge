@@ -29,6 +29,17 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
+        /// Lists every user registered
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-all-user")]
+        public IActionResult GetAllUsers()
+        {
+            var response = _application.GetAllUsers();
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Register user entering the chat room
         /// </summary>
         /// <param name="request"></param>

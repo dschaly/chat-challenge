@@ -1,5 +1,7 @@
-﻿using Domain.Contracts.Repositories;
+﻿using AutoMapper;
+using Domain.Contracts.Repositories;
 using Domain.Contracts.Services;
+using Domain.DTOs.Response;
 using Domain.Entities;
 using Domain.Resources;
 
@@ -8,10 +10,12 @@ namespace Domain.Services.Services
     public sealed class UserService : BaseService<User, int>, IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository) : base(userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper) : base(userRepository)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
 
@@ -71,6 +75,12 @@ namespace Domain.Services.Services
                 throw new InvalidOperationException($"Id {ValidationResource.Informed}");
 
             base.Update(entity);
+        }
+
+        public ICollection<UserResponse> GetAllUsers()
+        {
+            var users = _userRepository.GetAll();
+            return _mapper.Map<List<UserResponse>>(users);
         }
     }
 }

@@ -17,12 +17,6 @@ namespace Domain.DTOs.Request
             if (EndDate.HasValue)
                 Filter = Filter.And(x => x.ActionDate <= EndDate.Value);
 
-            //if (ShedExitDateEnd.HasValue)
-            //{
-            //    var exitDate = new DateTime(ShedExitDateEnd.Value.Year, ShedExitDateEnd.Value.Month, ShedExitDateEnd.Value.Day, 23, 59, 59);
-            //    filter = filter.And(x => x.Sheds.Any(y => y.ExitDate <= exitDate));
-            //}
-
             return Filter;
         }
     }

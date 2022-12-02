@@ -13,5 +13,6 @@ namespace Domain.Contracts.Application
         ICollection<ByHourActionResult> GetHistoryByHour(RoomActionsByHourFilter filter);
         ICollection<ByMinuteActionResult> GetHistoryByMinute(RoomActionsByMinuteFilter filter);
         ICollection<RoomActionResponse> GetAllActions();
+        ICollection<UserResponse> GetAllUsers();
     }
 }

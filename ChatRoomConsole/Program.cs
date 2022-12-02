@@ -1,6 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Welcome to the Chat Room Admin Area");
+using ChatRoomConsole.Actions;
+using ChatRoomConsole.Utils;
 
+internal class Program
+{
+    private static async Task Main(string[] args)
+    {
+        using HttpClient client = new();
+        client.BaseAddress = new Uri(ClientUtils.BASE_ADRESS);
 
-Console.ReadLine();
-
+        await MenuActions.HandleMainMenuAsync(client);
+        Console.ReadLine();
+    }
+}

@@ -369,13 +369,13 @@ namespace UnitTests.Fixture
 
         private void CreateServices()
         {
-            UserService = new UserService(UserRepository);
+            UserService = new UserService(UserRepository, Mapper);
             RoomActionService = new RoomActionService(RoomActionRepository, UserService, Mapper);
         }
 
         private void CreateApplications()
         {
-            RoomActionApplication = new RoomActionApplication(RoomActionService);
+            RoomActionApplication = new RoomActionApplication(RoomActionService, UserService);
         }
     }
 }

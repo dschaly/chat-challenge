@@ -9,10 +9,12 @@ namespace Application
     public sealed class RoomActionApplication : IRoomActionApplication
     {
         private readonly IRoomActionService _roomActionService;
+        private readonly IUserService _userService;
 
-        public RoomActionApplication(IRoomActionService roomActionService)
+        public RoomActionApplication(IRoomActionService roomActionService, IUserService userService)
         {
             _roomActionService = roomActionService;
+            _userService = userService;
         }
     
         public void EnterTheRoom(EnterTheRoomRequest request)
@@ -38,6 +40,11 @@ namespace Application
         public ICollection<RoomActionResponse> GetAllActions()
         {
             return _roomActionService.GetAllActions();
+        }
+
+        public ICollection<UserResponse> GetAllUsers()
+        {
+            return _userService.GetAllUsers();
         }
 
         public ICollection<ByHourActionResult> GetHistoryByHour(RoomActionsByHourFilter filter)
