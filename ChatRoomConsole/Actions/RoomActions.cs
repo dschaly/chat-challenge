@@ -222,7 +222,7 @@ namespace ChatRoomConsole.Actions
 
             var response = await client
                 .GetAsync($"{ClientUtils.BASE_ADRESS}" +
-                $"/ChatActions/get-all-user");
+                $"/ChatActions/get-all-users");
 
             if (response.IsSuccessStatusCode)
             {

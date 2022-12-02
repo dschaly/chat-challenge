@@ -32,7 +32,7 @@ namespace WebApi.Controllers
         /// Lists every user registered
         /// </summary>
         /// <returns></returns>
-        [HttpGet("get-all-user")]
+        [HttpGet("get-all-users")]
         public IActionResult GetAllUsers()
         {
             var response = _application.GetAllUsers();
